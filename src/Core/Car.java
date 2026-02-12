@@ -1,4 +1,4 @@
-package Basic;
+package Core;
 
 class Car {
     String model;

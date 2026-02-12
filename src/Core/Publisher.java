@@ -1,4 +1,4 @@
-package Basic;
+package Core;
 
 public class Publisher {
     String name;

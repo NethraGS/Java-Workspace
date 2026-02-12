@@ -1,6 +1,6 @@
 package Collections;
 
-import Basic.Book;
+import Core.Book;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

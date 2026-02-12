@@ -1,9 +1,8 @@
 package Streams;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class StreamExample {
@@ -15,16 +14,32 @@ public class StreamExample {
         prodList.add(new Product(1004,"Mobile",50000,1,"Samsung",0));
         prodList.add(new Product(1005,"Monitor",16000,4,"Dell",100));
         prodList.add(new Product(1006,"Mouse",1200,15,"logitech",50));
-
-        List<String> names=prodList.stream().filter(p->p.deliveryCharges==0).map(p->p.name).collect(Collectors.toList());
+        // Find out all the names of products with zero delivery charges
+        List<String> names = prodList.stream().filter(p -> p.deliveryCharges > 0).map(p -> p.name).toList();
         System.out.println(names);
-        //Set<String>nameSet=prodList.stream().filter(p->)
-        int totalQuantity = prodList.stream()
+
+        List<String> names1 = prodList.stream()
+                .filter(p -> p.deliveryCharges == 0)
+                .filter(p -> p.name.equals("Samsung"))
+                .map(p -> p.name)
+                .collect(Collectors.toList());
+        System.out.println(names1);
+
+        Set<String> namesSet = prodList.stream()
+                .filter(p -> p.deliveryCharges == 0)
+                .map(p -> p.name)
+                .collect(Collectors.toSet());
+        System.out.println(namesSet);
+
+        Map<Integer, String> nameMap = prodList.stream()
+                .collect(Collectors.toMap(p -> p.prodId, p -> p.name));
+        System.out.println(nameMap);
+
+        prodList.stream().forEach(p -> System.out.println(p));
+
+        long count = prodList.stream()
                 .map(p -> p.quantity)
                 .reduce(0, Integer::sum);
-        System.out.println("Total Quantity: " + totalQuantity);
-
-
-
+        System.out.println(count);
     }
 }

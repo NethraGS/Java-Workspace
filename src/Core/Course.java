@@ -1,4 +1,4 @@
-package Basic;
+package Core;
 
 public class Course {
     int id;
