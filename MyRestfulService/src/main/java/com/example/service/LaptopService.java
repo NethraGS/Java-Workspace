@@ -1,3 +1,5 @@
+package com.example.service;
+
 import com.example.model.Laptop;
 import com.example.repository.LaptopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
