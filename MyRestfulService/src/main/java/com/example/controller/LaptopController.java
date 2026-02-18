@@ -37,6 +37,10 @@ public class LaptopController {
         lr.save(oldLaptop.get());
         return oldLaptop.get();
     }
+    @GetMapping("/findByBrand/{brand}")
+    public List<Laptop> findByBrandName(@PathVariable String brand) {
+        return lr.findByBrand(brand);
+    }
 
     @DeleteMapping("/delete/{index}")
     public void delete(@PathVariable int index) {
