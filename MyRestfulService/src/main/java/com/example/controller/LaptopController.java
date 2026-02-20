@@ -1,7 +1,9 @@
 package com.example.controller;
+import com.example.exception.ResourceNotFoundException;
 import com.example.model.Laptop;
 import com.example.repository.LaptopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +24,29 @@ public class LaptopController {
         return lr.findAll();
     }
 
-    @GetMapping("/findOne/{index}")
+    /*@GetMapping("/findOne/{index}")
     public Optional<Laptop> findOne(@PathVariable int index) {
         return lr.findById(index);
-    }
+    }*/
 
     @PutMapping("/update/{index}")
-    public Laptop update(@PathVariable int index, @RequestBody Laptop newLaptop) {
-        Optional<Laptop> oldLaptop = lr.findById(index);
-        oldLaptop.get().setModel(newLaptop.getModel());
-        oldLaptop.get().setBrand(newLaptop.getBrand());
-        oldLaptop.get().setPrice(newLaptop.getPrice());
-        oldLaptop.get().setRam(newLaptop.getRam());
-        lr.save(oldLaptop.get());
-        return oldLaptop.get();
+    public ResponseEntity<Laptop> update(@PathVariable int index, @RequestBody Laptop newLaptop) {
+        Laptop oldLaptop = lr.findById(index)
+                .orElseThrow(() -> new ResourceNotFoundException("Laptop not found with id: " + index));
+
+        oldLaptop.setModel(newLaptop.getModel());
+        oldLaptop.setBrand(newLaptop.getBrand());
+        oldLaptop.setPrice(newLaptop.getPrice());
+        oldLaptop.setRam(newLaptop.getRam());
+
+        Laptop updatedLaptop = lr.save(oldupdatedLaptopLaptop);
+        return ResponseEntity.ok();
+    }
+    @GetMapping("/findOne/{index}")
+    public ResponseEntity<Laptop> findOne(@PathVariable int index) {
+        Laptop lt = lr.findById(index)
+                .orElseThrow(() -> new ResourceNotFoundException("Laptop not found with id: " + index));
+        return ResponseEntity.ok(lt);
     }
     @GetMapping("/findByBrand/{brand}")
     public List<Laptop> findByBrandName(@PathVariable String brand) {
